@@ -28,7 +28,7 @@
   import TextMenu from './menu/TextMenu.svelte'
   import { basicSetup, EditorView } from 'codemirror'
   import { Compartment, EditorState, type Extension } from '@codemirror/state'
-  import { keymap, ViewUpdate } from '@codemirror/view'
+  import { keymap, lineNumbers, ViewUpdate } from '@codemirror/view'
   import { indentWithTab, redo, redoDepth, undo, undoDepth } from '@codemirror/commands'
   import type { Diagnostic } from '@codemirror/lint'
   import { linter, lintGutter } from '@codemirror/lint'
@@ -460,7 +460,7 @@
       extensions: [
         keymap.of([indentWithTab, formatCompactKeyBinding]),
         linterCompartment.of(createLinter()),
-        lintGutter(),
+        //lintGutter(),
         basicSetup,
         highlighter,
         EditorView.domEventHandlers({
@@ -515,7 +515,6 @@
 
   function toRichParseError(parseError: ParseError, isRepairable: boolean): RichValidationError {
     const { line, column, position, message } = parseError
-
     return {
       path: null,
       line,
@@ -725,12 +724,19 @@
       return []
     }
 
-    const contentErrors = validate()
+    const lineNumberElements = codeMirrorRef.children[0].children[1].firstChild.firstChild.children
 
+    const contentErrors = validate()
     if (isContentParseError(contentErrors)) {
       const { parseError, isRepairable } = contentErrors
-
+      const lineNumber = parseError.line
+      lineNumberElements[lineNumber + 1].style.color = 'rgb(239 68 68)'
       return [toDiagnostic(toRichParseError(parseError, isRepairable))]
+    }
+
+    // No parse errors
+    for (let i = 0; i < lineNumberElements.length; i++) {
+      lineNumberElements[i].style.color = 'rgb(178, 178, 178)'
     }
 
     if (isContentValidationErrors(contentErrors)) {
