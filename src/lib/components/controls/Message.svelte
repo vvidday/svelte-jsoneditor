@@ -19,12 +19,13 @@
 
 <div class="jse-message jse-{type}">
   <div class="jse-text" class:jse-clickable={onClick !== null} on:click={handleClick}>
-    {#if icon}
+    <!-- {#if icon}
       <Icon data={icon} />
-    {/if}
+    {/if} -->
+    Warning:
     {message}
   </div>
-  <div class="jse-actions">
+  <!-- <div class="jse-actions">
     {#each actions as action}
       <button
         type="button"
@@ -48,7 +49,7 @@
         {action.text}
       </button>
     {/each}
-  </div>
+  </div> -->
 </div>
 
 <style src="./Message.scss"></style>

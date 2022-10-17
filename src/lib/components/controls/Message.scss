@@ -1,14 +1,15 @@
 @import '../../styles.scss';
 
 .jse-message {
-  font-family: var(--jse-font-family-mono);
-  font-size: var(--jse-font-size-mono);
+  font-family: var(--jse-font-family);
+  font-size: var(--jse-font-size);
 
   padding: $padding;
   display: flex;
   gap: $padding;
   flex-wrap: wrap;
   align-items: center;
+  border-radius: var(--jse-main-border-radius-bottom);
 
   &.jse-success {
     background: var(--jse-message-success-background);
