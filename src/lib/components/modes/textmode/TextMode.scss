@@ -1,11 +1,16 @@
 @import '../../../styles';
 
+.jse-text-mode > :first-child {
+  border-radius: var(--jse-main-border-radius-top)
+}
+
 .jse-text-mode {
   flex: 1;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   background: var(--jse-background-color);
+  border-radius: var(--jse-main-border-radius);
 
   &.no-main-menu {
     border-top: var(--jse-main-border);
@@ -24,6 +29,7 @@
 
     &:last-child {
       border-bottom: var(--jse-main-border);
+      border-radius: var(--jse-main-border-radius-bottom);
     }
 
     &.jse-hidden {
@@ -44,7 +50,7 @@
       :global(.cm-gutters) {
         background: var(--jse-panel-background);
         color: var(--jse-panel-color-readonly);
-        border-right: var(--jse-panel-border);
+        border-right: none;
       }
 
       :global(.cm-activeLine),
