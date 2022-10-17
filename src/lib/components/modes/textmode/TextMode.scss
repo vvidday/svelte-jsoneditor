@@ -1,8 +1,8 @@
 @import '../../../styles';
 
-.jse-text-mode > :first-child {
-  border-radius: var(--jse-main-border-radius-top)
-}
+// .jse-text-mode > :first-child {
+//   border-radius: var(--jse-main-border-radius-top)
+// }
 
 .jse-text-mode {
   flex: 1;
@@ -12,11 +12,9 @@
   background: var(--jse-background-color);
   border-radius: var(--jse-main-border-radius);
 
-  &.no-main-menu {
-    border-top: var(--jse-main-border);
-  }
 
   .jse-contents {
+    padding-top: var(--jse-top-padding);
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -24,7 +22,12 @@
     min-width: 0;
     min-height: 0;
     
+    &:first-child {
+      border-top: var(--jse-main-border);
+    }
+    
     border-radius: var(--jse-main-border-radius-top);
+
     border-left: var(--jse-main-border);
     border-right: var(--jse-main-border);
 
@@ -40,6 +43,7 @@
     :global(.cm-editor) {
       flex: 1;
       overflow: hidden;
+      outline: none;
 
       :global(.cm-scroller) {
         font-family: var(--jse-font-family-mono);
