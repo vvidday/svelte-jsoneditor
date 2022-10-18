@@ -12,6 +12,10 @@
   background: var(--jse-background-color);
   border-radius: var(--jse-main-border-radius);
 
+  &.read-only {
+    background: var(--jse-background-color-readonly);
+  }
+
 
   .jse-contents {
     padding-top: var(--jse-top-padding);

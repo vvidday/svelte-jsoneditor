@@ -785,7 +785,7 @@
       : []
 </script>
 
-<div class="jse-text-mode" class:no-main-menu={!mainMenuBar} bind:this={domTextMode}>
+<div class="jse-text-mode" class:read-only={readOnly} class:no-main-menu={!mainMenuBar} bind:this={domTextMode}>
   {#if mainMenuBar}
     <TextMenu
       {readOnly}
