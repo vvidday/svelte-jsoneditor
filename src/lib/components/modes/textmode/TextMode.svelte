@@ -28,13 +28,14 @@
   import TextMenu from './menu/TextMenu.svelte'
   import { basicSetup, EditorView } from 'codemirror'
   import { Compartment, EditorState, type Extension } from '@codemirror/state'
-  import { keymap, lineNumbers, ViewUpdate } from '@codemirror/view'
-  import { indentWithTab, redo, redoDepth, undo, undoDepth } from '@codemirror/commands'
+  import { crosshairCursor, drawSelection, dropCursor, keymap, lineNumbers, rectangularSelection, ViewUpdate } from '@codemirror/view'
+  import { history, indentWithTab, redo, redoDepth, undo, undoDepth } from '@codemirror/commands'
   import type { Diagnostic } from '@codemirror/lint'
   import { linter, lintGutter } from '@codemirror/lint'
   import { json as jsonLang } from '@codemirror/lang-json'
-  import { indentUnit } from '@codemirror/language'
-  import { closeSearchPanel, openSearchPanel, search } from '@codemirror/search'
+  import { bracketMatching, defaultHighlightStyle, foldGutter, indentOnInput, indentUnit, syntaxHighlighting } from '@codemirror/language'
+  import { autocompletion, closeBrackets, closeBracketsKeymap} from "@codemirror/autocomplete"
+  import { closeSearchPanel, highlightSelectionMatches, openSearchPanel, search } from '@codemirror/search'
   import jsonSourceMap from 'json-source-map'
   import StatusBar from './StatusBar.svelte'
   import { highlighter } from './codemirror/codemirror-theme'
@@ -458,10 +459,27 @@
     const state = EditorState.create({
       doc: initialText,
       extensions: [
-        keymap.of([indentWithTab, formatCompactKeyBinding]),
+        keymap.of([indentWithTab, formatCompactKeyBinding, ...closeBracketsKeymap]),
         linterCompartment.of(createLinter()),
         //lintGutter(),
-        basicSetup,
+        /* 
+          Most extensions from basic setup, besides active line
+          To fix selection bug
+        */
+        lineNumbers(),
+        history(),
+        foldGutter(),
+        drawSelection(),
+        dropCursor(),
+        indentOnInput(),
+        syntaxHighlighting(defaultHighlightStyle, {fallback: true}),
+        bracketMatching(),
+        closeBrackets(),
+        autocompletion(),
+        rectangularSelection(),
+        crosshairCursor(),
+        highlightSelectionMatches(),
+        //basicSetup,
         highlighter,
         EditorView.domEventHandlers({
           dblclick: handleDoubleClick
