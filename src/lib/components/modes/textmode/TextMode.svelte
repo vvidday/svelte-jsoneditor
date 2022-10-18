@@ -29,11 +29,11 @@
   import { basicSetup, EditorView } from 'codemirror'
   import { Compartment, EditorState, type Extension } from '@codemirror/state'
   import { crosshairCursor, drawSelection, dropCursor, keymap, lineNumbers, rectangularSelection, ViewUpdate } from '@codemirror/view'
-  import { history, indentWithTab, redo, redoDepth, undo, undoDepth } from '@codemirror/commands'
+  import { defaultKeymap, history, historyKeymap, indentWithTab, redo, redoDepth, undo, undoDepth } from '@codemirror/commands'
   import type { Diagnostic } from '@codemirror/lint'
   import { linter, lintGutter } from '@codemirror/lint'
   import { json as jsonLang } from '@codemirror/lang-json'
-  import { bracketMatching, defaultHighlightStyle, foldGutter, indentOnInput, indentUnit, syntaxHighlighting } from '@codemirror/language'
+  import { bracketMatching, defaultHighlightStyle, foldGutter, foldKeymap, indentOnInput, indentUnit, syntaxHighlighting } from '@codemirror/language'
   import { autocompletion, closeBrackets, closeBracketsKeymap} from "@codemirror/autocomplete"
   import { closeSearchPanel, highlightSelectionMatches, openSearchPanel, search } from '@codemirror/search'
   import jsonSourceMap from 'json-source-map'
@@ -459,7 +459,8 @@
     const state = EditorState.create({
       doc: initialText,
       extensions: [
-        keymap.of([indentWithTab, formatCompactKeyBinding, ...closeBracketsKeymap]),
+        keymap.of([indentWithTab, formatCompactKeyBinding, ...closeBracketsKeymap, ...historyKeymap, 
+        ...foldKeymap]),
         linterCompartment.of(createLinter()),
         //lintGutter(),
         /* 
