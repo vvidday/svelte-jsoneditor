@@ -459,7 +459,7 @@
     const state = EditorState.create({
       doc: initialText,
       extensions: [
-        keymap.of([indentWithTab, formatCompactKeyBinding, ...closeBracketsKeymap, ...historyKeymap, 
+        keymap.of([indentWithTab, formatCompactKeyBinding, ...closeBracketsKeymap, ...historyKeymap, ...defaultKeymap,
         ...foldKeymap]),
         linterCompartment.of(createLinter()),
         //lintGutter(),
@@ -470,7 +470,7 @@
         lineNumbers(),
         history(),
         foldGutter(),
-        drawSelection(),
+        //drawSelection(),
         dropCursor(),
         indentOnInput(),
         syntaxHighlighting(defaultHighlightStyle, {fallback: true}),
