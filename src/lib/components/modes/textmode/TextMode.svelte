@@ -456,9 +456,24 @@
   function createCodeMirrorView({ target, initialText, readOnly, indentation }) {
     debug('Create CodeMirror editor', { readOnly, indentation })
 
+
+
     const state = EditorState.create({
       doc: initialText,
       extensions: [
+        EditorView.domEventHandlers({
+          keydown(e, view) {
+            // Workaround for chrome scroll bug
+            if (e.key === 'Backspace' || e.key === 'Delete') {
+              const activeElement = (document.activeElement);
+              if (window.chrome && window.getSelection().isCollapsed && window.getSelection().anchorOffset === 0) {
+                // Collapsed selection & at first character (i.e. backspace will delete line)
+                (activeElement as HTMLElement).blur()
+                setTimeout(() => (activeElement as HTMLElement).focus(), 0)
+              }
+            }
+          }
+        }),
         keymap.of([indentWithTab, formatCompactKeyBinding, ...closeBracketsKeymap, ...historyKeymap, ...defaultKeymap,
         ...foldKeymap]),
         linterCompartment.of(createLinter()),
