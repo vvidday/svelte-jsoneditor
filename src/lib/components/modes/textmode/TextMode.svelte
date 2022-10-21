@@ -768,12 +768,19 @@
     }
 
     const lineNumberElements = codeMirrorRef.children[0].children[1].firstChild.firstChild.children
-
     const contentErrors = validate()
     if (isContentParseError(contentErrors)) {
       const { parseError, isRepairable } = contentErrors
       const lineNumber = parseError.line
-      lineNumberElements[lineNumber + 1].style.color = 'rgb(239 68 68)'
+      if (lineNumber !== null) {
+        for (let i = 0; i < lineNumberElements.length; i++) {
+          if (lineNumberElements[i].textContent === lineNumber.toString()) {
+            lineNumberElements[i+1].style.color = 'rgb(239 68 68)'
+            break
+          }
+        }
+      }
+
       return [toDiagnostic(toRichParseError(parseError, isRepairable))]
     }
 
