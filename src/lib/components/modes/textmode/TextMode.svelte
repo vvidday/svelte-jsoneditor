@@ -506,6 +506,15 @@
           if (update.docChanged) {
             onChangeCodeMirrorValueDebounced()
           }
+          update.transactions.filter(tr => tr.isUserEvent('input.paste')).map(tr => {
+            try {
+              const jsonVal = parser.parse(tr.state.toJSON().doc)
+              setCodeMirrorContent({
+                text: parser.stringify(jsonVal, null, indentation)
+              })
+            } catch (err) {
+            }
+          })
         }),
         jsonLang(),
         search({
